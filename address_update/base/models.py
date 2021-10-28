@@ -1,34 +1,39 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf  import settings
 
 class CustomUser(AbstractUser):
     email = models.EmailField()
     aadhar_no = models.CharField(max_length=12)
     name = models.TextField()
 
+
 class RequestForApproval(models.Model):
-    landlord = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE)
-    resident = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE)
+    landlord = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name = "landlord")
+    resident = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = "resident")
     note = models.TextField()
 
-    landlord_consent = models.CharField(max_length = 1) 
-    final_status = models.CharField(max_length = 1)
+    landlord_consent = models.CharField(max_length=1)
+    final_status = models.CharField(max_length=1)
     # n - not decided
     # a - approved
     # x - not approved
 
     date_of_request = models.DateField()
     date_of_approval = models.DateField()
+    
 
 
 class Supporting_Document(models.Model):
-    request = models.ForeignKey(RequestForApproval,on_delete = models.CASCADE)
+    request = models.ForeignKey(RequestForApproval, on_delete=models.CASCADE)
     document_url = models.TextField()
     document_name = models.TextField()
 
 
 class Address(models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE) 
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     house = models.TextField()
     street = models.TextField()
     landmark = models.TextField()

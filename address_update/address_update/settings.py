@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'base',
     'corsheaders',
     'jwt',
+    'dotenv',
 ]
 
 MIDDLEWARE = [
