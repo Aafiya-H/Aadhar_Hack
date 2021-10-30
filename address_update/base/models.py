@@ -9,8 +9,7 @@ class CustomUser(AbstractUser):
 
 
 class RequestForApproval(models.Model):
-    landlord = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name = "landlord")
+    landlord = models.CharField(max_length = 12)
     resident = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = "resident")
     note = models.TextField()
@@ -34,6 +33,7 @@ class Supporting_Document(models.Model):
 
 class Address(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    landlord_name = models.TextField(default="")
     house = models.TextField()
     street = models.TextField()
     landmark = models.TextField()

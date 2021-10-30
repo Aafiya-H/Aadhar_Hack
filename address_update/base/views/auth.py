@@ -2,9 +2,9 @@ from rest_framework.response import Response
 from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .models import *
-from .serializers import *
-from .decorators import *
+from ..models import CustomUser
+from ..serializers import UserSerializer
+from ..decorators import get_object_from_token, get_token_from_object, login_required
 import jwt
 import requests
 import json
