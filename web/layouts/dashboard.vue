@@ -47,10 +47,10 @@
             </nuxt-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../../index.html">
+            <nuxt-link class="nav-link" :to="'/login'">
               <i class="mdi mdi-grid-large menu-icon"></i>
               <span class="menu-title">Logout</span>
-            </a>
+            </nuxt-link>
           </li>
         </ul>
       </nav>

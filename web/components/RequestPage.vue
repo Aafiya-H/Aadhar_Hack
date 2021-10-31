@@ -20,11 +20,11 @@
         </div>
         <br>
         <center>
-            <button type="button" class="btn btn-inverse-success btn-lg btn-icon">Approve</button>
+            <button type="button" class="btn btn-inverse-success btn-lg btn-icon" v-on:click.prevent="otpSent = true">Approve</button>
             <button type="button" class="btn btn-inverse-danger btn-lg btn-icon">Reject</button>
         </center>
         <br>
-        <div class="card">
+        <div class="card" v-if="otpSent">
             <div class="card-body">
                 <div class="card-title">Submit OTP</div>
                 <div class="card-description">We have sent you OTP to registered mobile number. Enter below to proceed.</div>
@@ -41,7 +41,11 @@
 
 <script>
 export default {
-
+    data() {
+        return {
+            otpSent: false
+        }
+    }
 }
 </script>
 

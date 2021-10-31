@@ -18,17 +18,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr v-for="request in pastRequests" v-bind:key="request.id">
                         <td>
-                            #1928
+                            #{{ request.id }}
                         </td>
                         <td>
                             <div>
-                                <h6>Brandon Washington</h6>
-                                <p>Mumbai</p>
+                                <h6>{{ request.landlord }}</h6>
                             </div>
                         </td>
-                        <td><div class="badge badge-opacity-warning">In progress</div></td>
+                        <td><div class="badge badge-opacity-warning">{{  }}</div></td>
                     </tr>
                     <tr>
                         <td>
@@ -64,7 +63,7 @@
 
 <script>
 export default {
-
+    props: ['pastRequests']
 }
 </script>
 

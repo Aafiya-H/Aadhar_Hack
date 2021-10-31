@@ -5,9 +5,9 @@
                 <div class="col-md-6 col-lg-6">
                     <h3 class="text-white upgrade-info"><span class="fw-bold">Ongoing Request</span></h3>
                     <br>
-                    <h4 class="text-white upgrade-info">Landlord - <span class="fw-bold"> **18 **** **62</span></h4>
+                    <h4 class="text-white upgrade-info">Landlord - <span class="fw-bold"> {{ requestObj.landlord }}</span></h4>
                     <br>
-                    <a href="#" class="btn btn-info upgrade-btn">Take Action</a>
+                    <a href="#" class="btn btn-info upgrade-btn" disabled>Take Action</a>
                 </div>
                 <div class="col-md-1 col-lg-1">
                     
@@ -20,7 +20,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-2 mb-sm-0">
                                 <div>
                                 <p class="text-small mb-2">Requested</p>
-                                <h4 class="mb-0 fw-bold">3 Days Ago</h4>
+                                <h4 class="mb-0 fw-bold">{{ requestObj.date_of_request }}</h4>
                                 </div>
                             </div>
                             </div>
@@ -44,7 +44,7 @@
 
 <script>
 export default {
-
+ props: ['requestObj']
 }
 </script>
 
