@@ -142,7 +142,7 @@ def generate_token_for_otp(request):
         if response.get('status').lower() == 'n':
             return Response({'Message': 'OtpAuthentication Failure','ErrorCode': response['errCode']},status=status.HTTP_400_BAD_REQUEST) 
         else:
-            token = get_token_from_object({'otp':request_data['otp']},'1234')
+            token = get_token_from_object({'uid':request_data['uid']},'1234')
             return Response({'Message':"Token has been generated",'token':token, 'name': response['aadhar_holder_name']},status=status.HTTP_200_OK)
     else:
         return Response({'Error':"Wrong method"},status=status.HTTP_400_BAD_REQUEST)
