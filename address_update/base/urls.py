@@ -21,5 +21,9 @@ urlpatterns = [
     path('/api/aadhar-user/dashboard/home',dashboard.landlord_dashboard,name='landlord_dashboard')
     path('/api/aadhar-user/dashboard/request_details',dashboard.landlord_request_details,name='landlord_request_details')
     path('/api/aadhar-user/dashboard/handle_request_consent',dashboard.handle_request_after_consent,name='handle_request'),
+    path('api/user/dashboard/home',dashboard.show_requests,name='home'),
+    path('api/user/dashboard/delete_request',dashboard.delete_request,name="delete_request"),
+    path('api/aadhar-user/dashboard/getOTP',dashboard.get_otp,name="get_otp")
+    # path('user/dashboard/request',dashboard.dashboardrequest,name='dashboardrequest'),
     # path('user/dashboard/home',dashboard.dashboardhome,name='dashboardhome')
 ]
