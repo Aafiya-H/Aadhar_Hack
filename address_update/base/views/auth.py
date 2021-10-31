@@ -46,7 +46,7 @@ def register(request):
 		users = CustomUser.objects.filter(email=email_id)
 		if users:
 			return Response({'Error':"Email already exists"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-		new_user = CustomUser(email = email_id,username=username, password = password)
+		new_user = CustomUser(email = email_id, username=username, password = password)
 		new_user.save()
 		return Response({'Message':"User has been created"},status=status.HTTP_200_OK)
 	else:

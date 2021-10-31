@@ -85,5 +85,6 @@ def eKyc(uid,otp,txn_id):
     #     return {'status':res['status'], 'error_code':res['errCode']}
     
     xml_string = res['eKycString']
-    address_dict = parse_xml(xml_string)
-    return {'status':res['status'],'error_code':res['errCode'], 'address_dict':address_dict}
+    address_dict = parse_xml(xml_string),
+    aadhar_holder_name = 'Aadhar Holder Name'
+    return {'status':res['status'],'error_code':res['errCode'], 'address_dict':address_dict, 'aadhar_holder_name': aadhar_holder_name}

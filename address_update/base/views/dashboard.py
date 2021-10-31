@@ -28,7 +28,6 @@ def create_req(request):
         request_data = request.data
         landlord_aadhar_no = request_data['aadhar_no']
         note = request_data['note']
-        # get user 
         user = get_object_from_token(request_data['token'],"_SECRET_KEY")
         request_exists = RequestForApproval.objects.filter(resident=user).filter(final_status__in=['n', 'N'])
         if request_exists:
@@ -138,6 +137,12 @@ def generate_token_for_otp(request):
         txnID = request_data['txnID']
         uid = request_data['uid']
         otp = request_data['otp']
-        auth_status = auth(uid,otp,txnID)
-        token = get_token_from_object(otp,'1234')
-        return Response({'Message':"Token has been generated",'token':token},status=status.HTTP_200_OK)
+        response = eKyc(request_data['otp'],request_data['uid'],request_data['txn_id'])
+        if response.get('Status').lower() == 'n':
+            return Response({'Message': 'OtpAuthentication Failure','ErrorCode': res['errCode']},status=status.HTTP_400_BAD_REQUEST) 
+        else:
+            token = get_token_from_object(otp,'1234')
+            return Response({'Message':"Token has been generated",'token':token, 'name': res['aadhar_holder_name']},status=status.HTTP_200_OK)
+    else:
+        return Response({'Error':"Wrong method"},status=status.HTTP_400_BAD_REQUEST)
+        
