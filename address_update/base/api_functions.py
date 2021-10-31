@@ -87,4 +87,3 @@ def eKyc(uid,otp,txn_id):
     xml_string = res['eKycString']
     address_dict = parse_xml(xml_string)
     return {'status':res['status'],'error_code':res['errCode'], 'address_dict':address_dict}
-
