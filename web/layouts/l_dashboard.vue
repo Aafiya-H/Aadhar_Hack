@@ -11,7 +11,7 @@
         <div class="navbar-menu-wrapper d-flex align-items-top"> 
             <ul class="navbar-nav">
             <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-                <h1 class="welcome-text">Hey, <span class="text-black fw-bold">John Doe</span></h1>
+                <h1 class="welcome-text">Hey, <span class="text-black fw-bold">Bipin Rawat</span></h1>
             </li>
             </ul>
             <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas">
