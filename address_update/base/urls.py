@@ -18,6 +18,8 @@ from .views import auth, dashboard
 urlpatterns = [
     path('login',auth.login,name='login'),
     path('register',auth.register,name='register')
-    # path('user/dashboard/request',dashboard.dashboardrequest,name='dashboardrequest'),
+    path('/api/aadhar-user/dashboard/home',dashboard.landlord_dashboard,name='landlord_dashboard')
+    path('/api/aadhar-user/dashboard/request_details',dashboard.landlord_request_details,name='landlord_request_details')
+    path('/api/aadhar-user/dashboard/handle_request_consent',dashboard.handle_request_after_consent,name='handle_request'),
     # path('user/dashboard/home',dashboard.dashboardhome,name='dashboardhome')
 ]
