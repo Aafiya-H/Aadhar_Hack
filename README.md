@@ -21,7 +21,10 @@ About
 The aim of this website is to assist tenants by allowing them to overcome the problem of having a permanant address when moving to different location. Here, the landlord lends the tenant his/her address, the tenant makes a small change in that address and uses this as proof of residence. All of the above mentioned services are provided by our website.
 </p>
 
------------------------------------
+<p align='center'>
+Link to the video: <a href="https://drive.google.com/file/d/1DUcA2mOOQk6qnZlEV5Lj8X8ncsCHaSbK/view?usp=sharing">Video Link</a><br>
+Link to the ppt: <a href="https://docs.google.com/presentation/d/1UuKFwzu3l0WOtEUsQe5ITVAtCf2zTiWt0DGHTg7OYDo/edit?usp=sharing">PPT Link </a><br>
+</p>
 
 
 <h2 align='center'>
