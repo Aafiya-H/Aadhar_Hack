@@ -32,7 +32,7 @@ def landlord_login_required(function):
             if 'Authorization' in request.headers:
                 print(request.headers['Authorization'])
                 obj = get_object_from_token(request.headers['Authorization'], '1234')
-                if obj and obj.get('otp'):
+                if obj and obj.get('uid'):
                     print("Token aya")
                     return function(request, *args, **kw)
             else:
