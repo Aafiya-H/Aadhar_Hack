@@ -45,5 +45,19 @@ class Address(models.Model):
     country = models.TextField()
     pincode = models.CharField(max_length = 6)
 
+class Tenant_Approved_Address(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    landlord_name = models.TextField(default="")
+    house = models.TextField()
+    street = models.TextField()
+    landmark = models.TextField()
+    locality = models.TextField()
+    vtc = models.TextField()
+    subdist = models.TextField()
+    district = models.TextField()
+    state = models.TextField()
+    country = models.TextField()
+    pincode = models.CharField(max_length = 6)
+
 
 # Create your models here.

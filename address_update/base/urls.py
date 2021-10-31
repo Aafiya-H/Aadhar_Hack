@@ -24,6 +24,7 @@ urlpatterns = [
     path('aadhar-user/dashboard/handle_request_consent',dashboard.handle_request_after_consent,name='handle_request'),
     path('aadhar-user/dashboard/getOTP',dashboard.get_otp,name="get_otp"),
     path('aadhar-user/dashboard/validate_OTP',dashboard.generate_token_for_otp,name="generate_token_for_otp"),
+    path('aadhar-user/dashboard/authenticate_adderess',dashboard.authenticate_adderess,name="authenticate_adderess"),
     path('user/dashboard/home',dashboard.show_requests,name='home'),
     path('user/dashboard/delete_request',dashboard.delete_request,name="delete_request"),
     path('user/dashboard/request',dashboard.create_req,name='create_req'),

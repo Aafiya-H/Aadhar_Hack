@@ -147,3 +147,34 @@ def generate_token_for_otp(request):
     else:
         return Response({'Error':"Wrong method"},status=status.HTTP_400_BAD_REQUEST)
         
+@api_view(['POST'])
+def authenticate_adderess(request):
+    if request.method == "POST":
+        request_data = request.data
+        tenant_address = request_data['tenant_address'] # in dict format
+        landlord_address = request_data['landlord_address'] # in dict format
+        tenant_device_gps_address = request_data['tenant_device_gps_address'] # tuple with (lat, lon)
+        # aadhar_landlord = get_object_from_token(request.headers['Authorization'], '1234')
+        # aadhar_landlord = aadhar_landlord['uid']
+        # landlord_address = RequestForApproval.objects.get(landlord=aadhar_landlord)
+        valid = validate_address(tenant_address,landlord_address,tenant_device_gps_address,string_threshold_level=6,km_threshold_level=0.5)
+        if valid:
+            # send updated address to UIDAI
+            print(landlord_address)
+            address = Tenant_Approved_Address(user = request_tenant_id,
+                            landlord_name = 'Partially approved',
+                            house = landlord_address['house'],
+                            street =landlord_address['street'], 
+                            landmark =landlord_address['landmark'], 
+                            locality =landlord_address['locality'], 
+                            vtc =landlord_address['vtc'], 
+                            subdist = landlord_address['subdist'],
+                            district = landlord_address['district'],
+                            state = landlord_address['state'],
+                            country = landlord_address['country'],
+                            pincode=landlord_address['pincode'])
+            address.save()
+        else:
+            return Response({'Message':"Major Changes detected in Address. Not Approved"},status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({'Error':"Wrong method"},status=status.HTTP_400_BAD_REQUEST)
