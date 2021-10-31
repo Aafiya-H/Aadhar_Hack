@@ -15,12 +15,31 @@ def login_required(function):
             if 'Authorization' in request.headers:
                 obj = get_object_from_token(request.headers['Authorization'], '_SECRET_KEY')
                 if obj and obj.get('user_id'):
-                    # print("Token aya")
+                    print("Token aya")
                     return function(request, *args, **kw)
             else:
-                # print("Token nahi aya")
+                print("Token nahi aya")
                 return Response({'Error':"Invalid token"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         except Exception as e:
             print("Token is invalid")
+            print(e)
+            return Response({'Error':"Invalid token"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    return wrapper
+
+def landlord_login_required(function):
+    def wrapper(request, *args, **kw):
+        try:
+            if 'Authorization' in request.headers:
+                print(request.headers['Authorization'])
+                obj = get_object_from_token(request.headers['Authorization'], '1234')
+                if obj and obj.get('otp'):
+                    print("Token aya")
+                    return function(request, *args, **kw)
+            else:
+                print("Token nahi aya")
+                return Response({'Error':"Invalid token"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as e:
+            print("Token is invalid")
+            print(e)
             return Response({'Error':"Invalid token"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     return wrapper

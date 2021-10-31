@@ -83,8 +83,10 @@ def eKyc(uid,otp,txn_id):
     res = json.loads(r.text)
     # if res['status'].lower() =s= 'n':
     #     return {'status':res['status'], 'error_code':res['errCode']}
-    
+    print(res['status'])
     xml_string = res['eKycString']
+    print(xml_string)
+    print(res['errCode'])
     address_dict = parse_xml(xml_string),
     aadhar_holder_name = 'Aadhar Holder Name'
     return {'status':res['status'],'error_code':res['errCode'], 'address_dict':address_dict, 'aadhar_holder_name': aadhar_holder_name}

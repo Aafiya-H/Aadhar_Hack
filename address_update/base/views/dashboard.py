@@ -10,10 +10,10 @@ from ..models import RequestForApproval
 from django.views.decorators.csrf import csrf_exempt
 import base64
 from django.utils.html import strip_tags
-import time
+from datetime import datetime
 from ..models import *
 from ..api_functions import *
-from ..decorators import login_required
+from ..decorators import *
 from django.shortcuts import render,redirect
 from itertools import chain
 from ..serializers import *
@@ -29,29 +29,31 @@ def create_req(request):
         landlord_aadhar_no = request_data['aadhar_no']
         note = request_data['note']
         user = get_object_from_token(request_data['token'],"_SECRET_KEY")
-        request_exists = RequestForApproval.objects.filter(resident=user).filter(final_status__in=['n', 'N'])
+        print(user)
+        user_instance = CustomUser.objects.get(pk=user.get('user_id'))
+        request_exists = RequestForApproval.objects.filter(resident=user_instance).filter(final_status__in=['n', 'N'])
         if request_exists:
             return Response({'Message':"One request already exists"},status=status.HTTP_400_BAD_REQUEST)
         else: 
-            new_request = RequestForApproval(landlord = landlord_aadhar_no, resident = username, note = note, date_of_request = datetime.now())
+            new_request = RequestForApproval(landlord = landlord_aadhar_no, resident = user_instance, note = note, date_of_request = datetime.now(), landlord_consent="n", final_status="n")
             new_request.save()
             return Response({'Message':"Request has been created"},status=status.HTTP_200_OK)
     else:
         return Response({'Message':"Wrong method"},status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
-@login_required
+@landlord_login_required
 def landlord_dashboard(request):
     if request.method == 'POST':
         request_data = request.data
         token = request_data['token']
         aadhar_number = get_object_from_token(token,'1234')
-        landlord_requests = RequestForApproval.objects.get(landlord=aadhar_number)
+        landlord_requests = RequestForApproval.objects.filter(landlord=aadhar_number)
         request_serializer = RequestForApprovalSerializer(landlord_requests,many=True)
         return Response({'Message':'Fetched landlord requests','landlord_requests': request_serializer.data},status = status.HTTP_200_OK)
 
 @api_view(['POST'])
-@login_required
+@landlord_login_required
 def landlord_request_details(request):
     if request.method == 'POST':
         request_data = request.data
@@ -61,12 +63,12 @@ def landlord_request_details(request):
         return Response({'Message':'Fetched landlord requests', 'request_details': request_serializer.data},status = status.HTTP_200_OK)
 
 @api_view(['POST'])
-@login_required
+@landlord_login_required
 def handle_request_after_consent(request):
     if request.method == 'POST':
         request_data = request.data
         request_id = request_data['request_id']
-        request_approval_status = request_data['request_id']
+        request_approval_status = request_data['request_approval_status']
         request = RequestForApproval.objects.get(id = request_id)
         if request_approval_status == 'SUCCESS':
             request.landlord_consent = 'a'
@@ -86,7 +88,8 @@ def handle_request_after_consent(request):
             address.save()
             request.save()            
         elif request_approval_status == "FAIL": 
-            request.landlord_consent = 'n'
+            request.landlord_consent = 'x'
+            request.final_status = 'x'
             request.save()
         
         return Response({'Message':'Landlord consent received'},status = status.HTTP_200_OK)
@@ -96,15 +99,16 @@ def handle_request_after_consent(request):
 def show_requests(request):
     if request.method == "POST":
         data = request.data
-        current_request = RequestForApproval.objects.get(resident = data["user_id"],final_status='n')
+        print(data['user_id'])
+        current_request = RequestForApproval.objects.filter(resident = data["user_id"],final_status='n')
         previous_approved_requests = RequestForApproval.objects.filter(resident = data["user_id"],final_status = 'a')
         previous_rejected_requests = RequestForApproval.objects.filter(resident = data["user_id"],final_status = 'x')
         previous_requests = chain(previous_approved_requests,previous_rejected_requests)
 
-        current_request_serializer = RequestForApprovalSerializer(current_request)
+        current_request_serializer = RequestForApprovalSerializer(current_request,many=True)
         previous_requests_serializer = RequestForApprovalSerializer(previous_requests,many=True)
 
-        return Response({'Message':"User has been created","current_request":current_request_serializer.data,
+        return Response({'Message':"Requests are fetched","current_request":current_request_serializer.data,
         "previous_requests":previous_requests_serializer.data},status=status.HTTP_200_OK)
 
 @api_view(['POST'])
@@ -133,16 +137,13 @@ def get_otp(request):
 @api_view(['POST'])
 def generate_token_for_otp(request):
     if request.method == "POST":
-        data = request.data
-        txnID = request_data['txnID']
-        uid = request_data['uid']
-        otp = request_data['otp']
-        response = eKyc(request_data['otp'],request_data['uid'],request_data['txn_id'])
-        if response.get('Status').lower() == 'n':
-            return Response({'Message': 'OtpAuthentication Failure','ErrorCode': res['errCode']},status=status.HTTP_400_BAD_REQUEST) 
+        request_data = request.data
+        response = eKyc(request_data['uid'], request_data['otp'], request_data['txn_id'])
+        if response.get('status').lower() == 'n':
+            return Response({'Message': 'OtpAuthentication Failure','ErrorCode': response['errCode']},status=status.HTTP_400_BAD_REQUEST) 
         else:
-            token = get_token_from_object(otp,'1234')
-            return Response({'Message':"Token has been generated",'token':token, 'name': res['aadhar_holder_name']},status=status.HTTP_200_OK)
+            token = get_token_from_object({'otp':request_data['otp']},'1234')
+            return Response({'Message':"Token has been generated",'token':token, 'name': response['aadhar_holder_name']},status=status.HTTP_200_OK)
     else:
         return Response({'Error':"Wrong method"},status=status.HTTP_400_BAD_REQUEST)
         

@@ -21,7 +21,7 @@ class RequestForApproval(models.Model):
     # x - not approved
 
     date_of_request = models.DateField()
-    date_of_approval = models.DateField()
+    date_of_approval = models.DateField(null=True)
     
 
 
