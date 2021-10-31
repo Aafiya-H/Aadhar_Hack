@@ -17,7 +17,11 @@ from django.urls import path,include
 from .views import auth, dashboard
 urlpatterns = [
     path('login',auth.login,name='login'),
-    path('register',auth.register,name='register')
+    path('register',auth.register,name='register'),
+
+    path('api/user/dashboard/home',dashboard.show_requests,name='home'),
+    path('api/user/dashboard/delete_request',dashboard.delete_request,name="delete_request"),
+    path('api/aadhar-user/dashboard/getOTP',dashboard.get_otp,name="get_otp")
     # path('user/dashboard/request',dashboard.dashboardrequest,name='dashboardrequest'),
     # path('user/dashboard/home',dashboard.dashboardhome,name='dashboardhome')
 ]
