@@ -22,7 +22,6 @@ The aim of this website is to assist tenants by allowing them to overcome the pr
 </p>
 
 <p align='center'>
-Link to the video: <a href="https://drive.google.com/file/d/1DUcA2mOOQk6qnZlEV5Lj8X8ncsCHaSbK/view?usp=sharing">Video Link</a><br>
 Link to the ppt: <a href="https://docs.google.com/presentation/d/1UuKFwzu3l0WOtEUsQe5ITVAtCf2zTiWt0DGHTg7OYDo/edit?usp=sharing">PPT Link </a><br>
 </p>
 
